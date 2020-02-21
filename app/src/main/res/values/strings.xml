@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">diceAndLoad</string>
+    <string name="app_name">RollAndLoad</string>
+    <string name="player2"> | |</string>
+    <string name="player3"> | | |</string>
+    <string name="player4"> | | | | </string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>
