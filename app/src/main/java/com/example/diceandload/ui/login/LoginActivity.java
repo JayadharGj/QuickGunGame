@@ -1,131 +1,177 @@
 package com.example.diceandload.ui.login;
 
-import android.app.Activity;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.diceandload.MainActivity;
 import com.example.diceandload.R;
-import com.example.diceandload.ui.login.LoginViewModel;
-import com.example.diceandload.ui.login.LoginViewModelFactory;
+import com.facebook.FacebookSdk;
+import com.google.android.material.textfield.TextInputLayout;
 
-public class LoginActivity extends AppCompatActivity {
 
-    private LoginViewModel loginViewModel;
+public class LoginActivity extends AppCompatActivity implements SmartLoginCallbacks {
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private Button facebookLoginButton, googleLoginButton, customSigninButton, logoutButton;
+    private View customSignupButton;
+    private TextInputLayout passwordTextInputLayout, emailTextInputLayout;
+    private EditText emailEditText, passwordEditText;
+    SmartUser currentUser;
+    //GoogleApiClient mGoogleApiClient;
+    SmartLoginConfig config;
+    SmartLogin smartLogin;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
+        bindViews();
+        setListeners();
 
-        final EditText usernameEditText = findViewById(R.id.username);
-        final EditText passwordEditText = findViewById(R.id.password);
-        final Button loginButton = findViewById(R.id.login);
-        final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+        config = new SmartLoginConfig(this, this);
+        config.setFacebookAppId(getString(R.string.facebook_app_id));
+        config.setFacebookPermissions(null);
+        config.setGoogleApiClient(null);
+    }
 
-        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
-            @Override
-            public void onChanged(@Nullable LoginFormState loginFormState) {
-                if (loginFormState == null) {
-                    return;
-                }
-                loginButton.setEnabled(loginFormState.isDataValid());
-                if (loginFormState.getUsernameError() != null) {
-                    usernameEditText.setError(getString(loginFormState.getUsernameError()));
-                }
-                if (loginFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
-                }
-            }
-        });
+    @Override
+    protected void onResume() {
+        super.onResume();
+        currentUser = UserSessionManager.getCurrentUser(this);
+        refreshLayout();
+    }
 
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
-            @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null) {
-                    return;
-                }
-                loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
-                }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
-                }
-                setResult(Activity.RESULT_OK);
+    private void refreshLayout() {
+        currentUser = UserSessionManager.getCurrentUser(this);
+        if (currentUser != null) {
+            Log.d(TAG, "Logged in user: " + currentUser.toString());
+            facebookLoginButton.setVisibility(View.GONE);
+            googleLoginButton.setVisibility(View.GONE);
+            customSigninButton.setVisibility(View.GONE);
+            customSignupButton.setVisibility(View.GONE);
+            emailTextInputLayout.setVisibility(View.GONE);
+            passwordTextInputLayout.setVisibility(View.GONE);
+            logoutButton.setVisibility(View.VISIBLE);
+        } else {
+            facebookLoginButton.setVisibility(View.VISIBLE);
+            googleLoginButton.setVisibility(View.VISIBLE);
+            customSigninButton.setVisibility(View.VISIBLE);
+            customSignupButton.setVisibility(View.VISIBLE);
+            passwordTextInputLayout.setVisibility(View.VISIBLE);
+            emailTextInputLayout.setVisibility(View.VISIBLE);
+            logoutButton.setVisibility(View.GONE);
+        }
+    }
 
-                //Complete and destroy login activity once successful
-                finish();
-            }
-        });
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (smartLogin != null) {
+            smartLogin.onActivityResult(requestCode, resultCode, data, config);
+        }
+    }
 
-        TextWatcher afterTextChangedListener = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // ignore
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // ignore
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
-            }
-        };
-        usernameEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
-                }
-                return false;
-            }
-        });
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
+    private void setListeners() {
+        facebookLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                // Perform Facebook login
+                FacebookSdk.setApplicationId(getString(R.string.facebook_app_id));
+                FacebookSdk.sdkInitialize(LoginActivity.this);
+                smartLogin = SmartLoginFactory.build(LoginType.Facebook);
+                smartLogin.login(config);
+            }
+        });
+
+        googleLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform Google login
+                smartLogin = SmartLoginFactory.build(LoginType.Google);
+                smartLogin.login(config);
+            }
+        });
+
+        customSigninButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform custom sign in
+                smartLogin = SmartLoginFactory.build(LoginType.CustomLogin);
+                smartLogin.login(config);
+            }
+        });
+
+        customSignupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform custom sign up
+                Log.d(TAG, "Called signup button");
+                smartLogin = SmartLoginFactory.build(LoginType.CustomLogin);
+                smartLogin.signup(config);
+            }
+        });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentUser != null) {
+                    if (currentUser instanceof SmartFacebookUser) {
+                        smartLogin = SmartLoginFactory.build(LoginType.Facebook);
+                    } else if (currentUser instanceof SmartGoogleUser) {
+                        smartLogin = SmartLoginFactory.build(LoginType.Google);
+                    } else {
+                        smartLogin = SmartLoginFactory.build(LoginType.CustomLogin);
+                    }
+                    boolean result = smartLogin.logout(LoginActivity.this);
+                    if (result) {
+                        refreshLayout();
+                        Toast.makeText(LoginActivity.this, "User logged out successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
     }
 
-    private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+    private void bindViews() {
+        facebookLoginButton = (Button) findViewById(R.id.facebook_login_button);
+        googleLoginButton = (Button) findViewById(R.id.google_login_button);
+        customSigninButton = (Button) findViewById(R.id.custom_signin_button);
+        customSignupButton = findViewById(R.id.custom_signup_button);
+        emailEditText = (EditText) findViewById(R.id.email_edittext);
+        passwordTextInputLayout = (TextInputLayout) findViewById(R.id.password_text_input_layout);
+        emailTextInputLayout = (TextInputLayout) findViewById(R.id.email_text_input_layout);
+        passwordEditText = (EditText) findViewById(R.id.password_edittext);
+        logoutButton = (Button) findViewById(R.id.logout_button);
     }
 
-    private void showLoginFailed(@StringRes Integer errorString) {
-        Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+    @Override
+    public void onLoginSuccess(SmartUser user) {
+        Toast.makeText(this, user.toString(), Toast.LENGTH_SHORT).show();
+        refreshLayout();
+    }
+
+    @Override
+    public void onLoginFailure(SmartLoginException e) {
+        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public SmartUser doCustomLogin() {
+        SmartUser user = new SmartUser();
+        user.setEmail(emailEditText.getText().toString());
+        return user;
+    }
+
+    @Override
+    public SmartUser doCustomSignup() {
+        SmartUser user = new SmartUser();
+        user.setEmail(emailEditText.getText().toString());
+        return user;
     }
 }

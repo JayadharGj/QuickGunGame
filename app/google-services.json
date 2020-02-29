@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "822769885742",
+    "firebase_url": "https://diceandload.firebaseio.com",
+    "project_id": "diceandload",
+    "storage_bucket": "diceandload.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:822769885742:android:b5c38fa3ab6b80db72f5bf",
+        "android_client_info": {
+          "package_name": "com.example.diceandload"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "822769885742-2m9k0cbasaim3r9k2992fkgchpt204tg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.diceandload",
+            "certificate_hash": "02e22b405440920609b77ae99072c550dfa5275d"
+          }
+        },
+        {
+          "client_id": "822769885742-rgj9tj1gvaq2h7rbv8j6o26cf7sa5jo0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxd7BecmkGYLkxDViBt6VyYOTw9n0dyCU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "822769885742-rgj9tj1gvaq2h7rbv8j6o26cf7sa5jo0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
