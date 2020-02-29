@@ -46,8 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 gameLevel=1;
                 break;
         }
-        mButtonOne.setOnClickListener(null);
-        mButtonTwo.setOnClickListener(null);
+
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction =fragmentManager.beginTransaction();
         PlayerSelectionFragment playerSelectionFragment = PlayerSelectionFragment.newInstance();
