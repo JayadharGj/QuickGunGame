@@ -1,12 +1,13 @@
 package com.example.diceandload;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import static com.example.diceandload.KeyConstants.REQUESTED_PLAYRES;
 
@@ -15,41 +16,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button mButtonOne;
     Button mButtonTwo;
-    Button mButtonThree;
+//    Button mButtonThree;
+    private static int gameLevel=-1;
+    private static int pCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        attachViewListenrs();
+        attachViewListeners();
 
     }
 
-    public void attachViewListenrs() {
-        mButtonOne = findViewById(R.id.one);
+    public void attachViewListeners() {
+        mButtonOne = findViewById(R.id.classic);
         mButtonOne.setOnClickListener(this);
-        mButtonTwo = findViewById(R.id.two);
+        mButtonTwo = findViewById(R.id.strategy);
         mButtonTwo.setOnClickListener(this);
-        mButtonThree = findViewById(R.id.three);
-        mButtonThree.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+//        int gameLevel=-1;
         switch (v.getId()) {
-            case R.id.one:
-                lockAndstartGame(2);
+            case R.id.classic:
+                gameLevel=0;
                 break;
-            case R.id.two:
-                lockAndstartGame(3);
-                break;
-            case R.id.three:
-                lockAndstartGame(4);
+            case R.id.strategy:
+                gameLevel=1;
                 break;
         }
+        mButtonOne.setOnClickListener(null);
+        mButtonTwo.setOnClickListener(null);
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction =fragmentManager.beginTransaction();
+        PlayerSelectionFragment playerSelectionFragment = PlayerSelectionFragment.newInstance();
+        fragmentTransaction.replace(R.id.buttonPanel,playerSelectionFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
-    void lockAndstartGame(int requestedPlayers) {
+    void playerCount(int count){
+        pCount = count;
+        lockAndstartGame(gameLevel,pCount);
+    }
+    void lockAndstartGame(int gameLevel,int requestedPlayers) {
         lockUi(true);
         Intent intent = new Intent(this, FullscreenActivity.class);
         intent.putExtra(REQUESTED_PLAYRES, requestedPlayers);
@@ -59,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     void lockUi(boolean key) {
         mButtonOne.setClickable(!key);
         mButtonTwo.setClickable(!key);
-        mButtonThree.setClickable(!key);
     }
 
     @Override

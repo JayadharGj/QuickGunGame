@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">RollAndLoad</string>
+    <string name="custom"> Custom </string>
+    <string name="strategy"> Strategy </string>
     <string name="player2"> | |</string>
     <string name="player3"> | | |</string>
     <string name="player4"> | | | | </string>
