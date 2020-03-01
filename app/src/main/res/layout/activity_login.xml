@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#40A33F"
+    android:background="@drawable/b"
     android:gravity="center_vertical"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -20,7 +20,7 @@
             android:id="@+id/email_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/grey_300"
+            android:textColor="@color/accent_color"
             android:layout_marginBottom="16dp"
             android:hint="Email"
             android:inputType="textNoSuggestions|textEmailAddress" />
@@ -39,23 +39,25 @@
             android:id="@+id/password_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/grey_300"
+            android:textColor="@color/accent_color"
             android:layout_marginBottom="16dp"
             android:hint="Password"
             android:inputType="textNoSuggestions|textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
-
     <Button
         android:id="@+id/custom_signin_button"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:tag="custom_login_button"
+        android:layout_width="224dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_margin="16dp"
+        android:background="@drawable/button_round"
+        android:tag="custom_login_button"
         android:text="@string/sign_in"
-        app:drawableTint="@color/green_800"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        app:drawableTint="@color/green_800" />
+
     <TextView
         android:id="@+id/custom_signup_button"
         android:layout_width="wrap_content"
@@ -96,43 +98,42 @@
     </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/facebook_login_button"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="4dp"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_facebook_white_36dp"
-            android:drawableStart="@drawable/ic_facebook_white_36dp"
-            android:tag="facebook_login_button"
-            android:text="@string/sign_in_facebook"
-            android:textColor="@color/white" />
 
-        <Button
-            android:id="@+id/google_login_button"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_google_plus_white_36dp"
-            android:drawableStart="@drawable/ic_google_plus_white_36dp"
-            android:tag="google_login_button"
-            android:text="@string/sign_in_google"
-            android:textColor="@color/white" />
+    <Button
+        android:id="@+id/facebook_login_button"
+        android:layout_width="201dp"
+        android:layout_height="37dp"
+        android:layout_gravity="center"
+        android:background="@drawable/fb_button"
+        android:drawableStart="@drawable/ic_facebook_white_36dp"
+        android:tag="facebook_login_button"
+        android:text="@string/sign_in_facebook"
+        android:textColor="@color/white" />
 
-        <Button
-            android:id="@+id/logout_button"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="@string/logout_text"
-            android:textColor="@color/white" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/google_login_button"
+        android:layout_width="194dp"
+        android:layout_height="36dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/gmail_button"
+        android:drawableStart="@drawable/ic_google_plus_white_36dp"
+        android:drawableLeft="@drawable/ic_google_plus_white_36dp"
+        android:drawablePadding="@dimen/activity_horizontal_margin"
+        android:tag="google_login_button"
+        android:text="@string/sign_in_google"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="151dp"
+        android:layout_height="36dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/gmail_button"
+        android:text="@string/logout_text"
+        android:textColor="@color/white" />
 
 
 </LinearLayout>
