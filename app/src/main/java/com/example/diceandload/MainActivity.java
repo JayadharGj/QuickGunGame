@@ -9,13 +9,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.spark.submitbutton.SubmitButton;
+
 import static com.example.diceandload.KeyConstants.REQUESTED_PLAYRES;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-
-    Button mButtonOne;
-    Button mButtonTwo;
+    SubmitButton mButtonOne;
+    SubmitButton mButtonTwo;
 //    Button mButtonThree;
     private static int gameLevel=-1;
     private static int pCount;

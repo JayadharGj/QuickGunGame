@@ -11,8 +11,8 @@
     </style>
 
     <style name="IntroTitleText">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textSize">60sp</item>
+        <item name="android:textColor">#FF5722</item>
+        <item name="android:textSize">40sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 

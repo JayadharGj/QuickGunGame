@@ -4,9 +4,9 @@
     <string name="fb_login_protocol_scheme">fb1061378927569990</string>
     <string name="custom"> Custom </string>
     <string name="strategy"> Strategy </string>
-    <string name="player2"> | |</string>
-    <string name="player3"> | | |</string>
-    <string name="player4"> | | | | </string>
+    <string name="player2"> dual player</string>
+    <string name="player3"> traingular player</string>
+    <string name="player4"> quadruple player </string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>

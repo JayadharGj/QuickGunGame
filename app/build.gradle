@@ -17,6 +17,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    repositories{
+        maven {
+            url 'https://dl.bintray.com/spark/maven'
+        }
+    }
     dependencies {
         implementation "android.arch.lifecycle:viewmodel:1.1.1"
         implementation "android.arch.lifecycle:extensions:1.1.1"
@@ -46,5 +51,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:10.2.0'
     // meGSON lib
     implementation 'com.google.code.gson:gson:2.7'
+
+
+    implementation 'me.spark:submitbutton:1.0.1'
 }
 apply plugin: 'com.google.gms.google-services'
