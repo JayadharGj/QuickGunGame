@@ -56,4 +56,7 @@
     <string name="getting_data">Getting User Info…</string>
     <string name="password_mismatch">Make sure your passwords match</string>
     <string name="login_failed">Login failed! Try again!</string>
+    <string name="press_for_dice_roll">Press for Dice Roll</string>
+    <string name="dice" />
+    <string name="dice_number_spin_it">Dice Number : ? Spin it</string>
 </resources>
