@@ -15,8 +15,8 @@ public final class KeyConstants {
 //    }
     @IntDef({CLASSIC , STRATEGY})
     @Retention(RetentionPolicy.RUNTIME)
-    public @interface GameMode{}
+@interface GameMode{}
 
-    public static final String GAME_MODE = "gamemode";
+    static final String GAME_MODE = "gamemode";
 
 }

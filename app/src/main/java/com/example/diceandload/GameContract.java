@@ -1,6 +1,11 @@
 package com.example.diceandload;
 
-public abstract class GameContract {
+abstract class GameContract {
 
+    abstract void attachViews();
+
+    abstract  void rollDice();
+
+    abstract void killPlayer(int playerId , int hisGunMan);
 
 }
