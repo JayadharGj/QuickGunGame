@@ -6,15 +6,19 @@ class Player {
     private int Id;
     private int rowScope;
     private ArrayList<Integer> gunMans;
+    private int gunMansAliveCount;
 
     Player(int id, int scope, ArrayList<Integer> gunMans) {
         Id = id;
-        scope = rowScope;
+       rowScope = scope;
         this.gunMans = gunMans;
+        gunMansAliveCount = 6;
     }
 
-    void initGunMans(final int val) {
-        gunMans.forEach((n) -> n = val);
+    void initGunMans(int val) {
+        for (int i = 0; i < rowScope; i++) {
+            gunMans.add(val);
+        }
     }
 
     public int getId() {
@@ -26,14 +30,25 @@ class Player {
     }
 
     void kill(int i) {
-        gunMans.set(i, 0);
+        if (!isGunManDead(i)) {
+            gunMans.set(i, 0);
+            gunMansAliveCount--;
+        }
+    }
+
+    boolean isPlayerDead() {
+        return gunMansAliveCount <= 0;
+    }
+
+    boolean isGunManDead(int i) {
+        return gunMans.get(i) == 0;
     }
 
     public int getRowScope() {
         return rowScope;
     }
 
-    public ArrayList<Integer> getGunMans() {
+    ArrayList<Integer> getGunMans() {
         return gunMans;
     }
 }

@@ -4,8 +4,12 @@ abstract class GameContract {
 
     abstract void attachViews();
 
-    abstract  void rollDice();
+    abstract void setCurrPlayer(int currPlayer);
 
-    abstract void killPlayer(int playerId , int hisGunMan);
+    abstract void rollDice();
+
+    abstract void play(int value);
+
+    abstract void killPlayer(int playerId, int hisGunMan);
 
 }

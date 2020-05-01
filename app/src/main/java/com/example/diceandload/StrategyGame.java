@@ -9,7 +9,17 @@ class StrategyGame extends GameContract {
     }
 
     @Override
+    void setCurrPlayer(int currPlayer) {
+
+    }
+
+    @Override
     void rollDice() {
+
+    }
+
+    @Override
+    void play(int value) {
 
     }
 
