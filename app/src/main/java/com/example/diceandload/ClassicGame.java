@@ -1,6 +1,7 @@
 package com.example.diceandload;
 
 import android.util.Pair;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -42,20 +43,21 @@ class ClassicGame extends GameContract {
             mViewModel.getUpdateUi().setValue(Pair.create(currPlayer, dice));
             mViewModel.getCurrentPlayer().setValue(getNextPLayer());
         } else {//bullet mode can select other player views not himself
-           mViewModel.getkiller().setValue(currPlayer);
+            mViewModel.getkiller().setValue(currPlayer);
         }
         //  mViewModel.getPlayer(currPlayer).levelUp(dice);
     }
 
     private int getNextPLayer() {
-        int x;
+        int x = currPlayer;
         do {
-            x = (currPlayer + 1) % noOfPlayers;
+            x = (x + 1) % noOfPlayers;
         }
         while (mViewModel.getPlayer(x).isPlayerDead() && (x != currPlayer));
         if (x == currPlayer) mViewModel.signalEndGame();
         return x;
     }
+
     void levelTransition(int val) {
         switch (val) {
             case 1:
@@ -70,15 +72,23 @@ class ClassicGame extends GameContract {
         mViewModel.getDice().setValue(randomGen.nextInt(6) + 1);
     }
 
+    /**
+     * bullet fired kill the player
+     *
+     * @param playerId  playerId column value
+     * @param hisGunMan the row value
+     * @return true player killer , false already dead X_X
+     */
     @Override
-    void killPlayer(int playerId, int hisGunMan) {
-        if (mViewModel.getPlayer(playerId).isGunManDead(playerId)) {//already dead
-
+    boolean killPlayer(int playerId, int hisGunMan) {
+        if (mViewModel.getPlayer(playerId).isGunManDead(hisGunMan)) {//already dead
+            return false;
         } else {
             mViewModel.getPlayer(playerId).kill(hisGunMan);
             mViewModel.getUpdateUi().setValue(Pair.create(playerId, hisGunMan));
-            if (currPlayer == getNextPLayer()) return;
+            if (currPlayer == getNextPLayer()) return true;
             mViewModel.getCurrentPlayer().setValue(currPlayer);//can kill again hurray!!
+            return true;
         }
     }
 }

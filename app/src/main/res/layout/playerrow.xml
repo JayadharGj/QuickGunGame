@@ -1,49 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.diceandload.ui.login.TouchEnableDisableLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/playerrow"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <ImageView
-        android:layout_margin="10dp"
-        android:src="@mipmap/born"
         android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-    <ImageView
-        android:layout_margin="10dp"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:src="@mipmap/born"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-    <ImageView
-        android:layout_margin="10dp"
-        android:layout_width="wrap_content"
-        android:src="@mipmap/born"
-        android:layout_gravity="center"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-    <ImageView
-        android:layout_margin="10dp"
-        android:layout_width="wrap_content"
-        android:src="@mipmap/born"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_weight="1"/>
-    <ImageView
         android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:src="@mipmap/born" />
+
+    <ImageView
         android:layout_width="wrap_content"
-        android:src="@mipmap/born"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_weight="1"/>
-    <ImageView
         android:layout_margin="10dp"
-        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:src="@mipmap/born" />
+
+    <ImageView
         android:layout_width="wrap_content"
-        android:src="@mipmap/born"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
-</LinearLayout>
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:src="@mipmap/born" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:src="@mipmap/born" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:src="@mipmap/born" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:src="@mipmap/born" />
+</com.example.diceandload.ui.login.TouchEnableDisableLinearLayout>

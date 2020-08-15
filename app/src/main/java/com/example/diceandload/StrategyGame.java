@@ -24,7 +24,8 @@ class StrategyGame extends GameContract {
     }
 
     @Override
-    void killPlayer(int playerId, int hisGunMan) {
+    boolean killPlayer(int playerId, int hisGunMan) {
+        return false;
 
     }
 }

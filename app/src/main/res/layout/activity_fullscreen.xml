@@ -7,12 +7,13 @@
     android:background="#000000"
     tools:context=".FullscreenActivity">
 
-    <LinearLayout
+    <com.example.diceandload.ui.login.TouchEnableDisableLinearLayout
         android:id="@+id/playerField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="100dp">
+        android:layout_marginBottom="100dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
         <include
             android:id="@+id/player1"
@@ -26,44 +27,45 @@
             layout="@layout/playerrow"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <include
             android:id="@+id/player3"
             layout="@layout/playerrow"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
         <include
             android:id="@+id/player4"
             layout="@layout/playerrow"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
-    </LinearLayout>
+            android:layout_weight="1" />
+    </com.example.diceandload.ui.login.TouchEnableDisableLinearLayout>
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:layout_height="wrap_content">-->
-<!--        <include-->
-<!--    </LinearLayout>-->
-<!--    <include layout="@layout/game_view_table"/>-->
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        android:layout_height="wrap_content">-->
+    <!--        <include-->
+    <!--    </LinearLayout>-->
+    <!--    <include layout="@layout/game_view_table"/>-->
 
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
 
-    <TextView
-        android:id="@+id/dice_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:text="2"
-        android:textColor="#FFFFFF"
-        android:textSize="100sp" />
-</FrameLayout>
+        <TextView
+            android:id="@+id/dice_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:text="2"
+            android:textColor="#FFFFFF"
+            android:textSize="100sp" />
+    </FrameLayout>
 
 
 </RelativeLayout>

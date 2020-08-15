@@ -10,6 +10,6 @@ abstract class GameContract {
 
     abstract void play(int value);
 
-    abstract void killPlayer(int playerId, int hisGunMan);
+    abstract boolean killPlayer(int playerId, int hisGunMan);
 
 }

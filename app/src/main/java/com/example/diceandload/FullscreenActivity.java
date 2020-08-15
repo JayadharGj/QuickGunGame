@@ -10,21 +10,22 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.diceandload.ui.login.TouchEnableDisableLinearLayout;
+
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.example.diceandload.KeyConstants.GAME_MODE;
 import static com.example.diceandload.KeyConstants.REQUESTED_PLAYRES;
 
-public class FullscreenActivity extends AppCompatActivity{
+public class FullscreenActivity extends AppCompatActivity {
 
     PlayerFactory playerFactory;
     GameContract gameController;
     PlayerViewModel playerViewModel;
     TextView mDiceView;
-    LinearLayout mPLayerField;
+    TouchEnableDisableLinearLayout mPLayerField;
     ImageView[][] imageViews;
-    LinearLayout[] mPlayerRows;
+    TouchEnableDisableLinearLayout[] mPlayerRows;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +47,10 @@ public class FullscreenActivity extends AppCompatActivity{
         super.onResume();
     }
 
+    //called once from oncreate
     void createPlayerField(int noOfplayers, @KeyConstants.GameMode int gameMode) {
-        AtomicBoolean enableDisable = new AtomicBoolean(true);
-        mPlayerRows = new LinearLayout[noOfplayers];
+
+        mPlayerRows = new TouchEnableDisableLinearLayout[noOfplayers];
         mPlayerRows[0] = findViewById(R.id.player1);
         mPlayerRows[1] = findViewById(R.id.player2);
         switch (noOfplayers) {
@@ -69,17 +71,17 @@ public class FullscreenActivity extends AppCompatActivity{
         gameController = playerFactory.getGame(this, gameMode, noOfplayers, playerViewModel, 6);
         mDiceView = findViewById(R.id.dice_view);
         mPLayerField = findViewById(R.id.playerField);
-        mPLayerField.setOnTouchListener((v,e )->{return enableDisable.get();});
 
         mDiceView.setOnClickListener(view -> {
-            gameController.rollDice();
             mDiceView.setClickable(false);
+            gameController.rollDice();
         });
         getViewIds(noOfplayers, 6);
         playerViewModel.getDice().observe(this, value -> {
             if (value > 0) {
-                mDiceView.setText(String.format(Locale.ENGLISH,"%d", value));
+                mDiceView.setText(String.format(Locale.ENGLISH, "%d", value));
                 gameController.play(value - 1);
+                mDiceView.setTextColor(getColor(R.color.colorAccent));
             }
         });
         playerViewModel.getUpdateUi().observe(this, idRow -> {
@@ -87,10 +89,10 @@ public class FullscreenActivity extends AppCompatActivity{
             imageViews[idRow.first][idRow.second].setImageResource(getImageResource(playerViewModel.getPlayer(idRow.first).getGunMans().get(idRow.second)));
         });
         playerViewModel.getkiller().observe(this, killer -> {
-            if(killer == -1) enableDisable.set(true);
+            if (killer != -1) mPLayerField.setEnable(true);
             for (int i = 0; i < noOfplayers; i++) {
-                if (i == killer) mPlayerRows[i].setClickable(false);
-                else mPlayerRows[i].setClickable(true);
+                if (i == killer) mPlayerRows[i].setEnable(false);
+                else mPlayerRows[i].setEnable(true);
             }
         });
 
@@ -98,6 +100,7 @@ public class FullscreenActivity extends AppCompatActivity{
             //player changed
             if (currPlayer >= 0) {
                 gameController.setCurrPlayer(currPlayer);
+                mPLayerField.setEnable(false);
                 //  mPLayerField.setClickable(false);
                 new Handler(getMainLooper()).postDelayed(() -> {
                     for (int i = 0; i < noOfplayers; i++) {
@@ -108,13 +111,14 @@ public class FullscreenActivity extends AppCompatActivity{
                         else mPlayerRows[i].setBackgroundColor(getColor(R.color.black));
                     }
                     mDiceView.setClickable(true);
-                }, 2000);
+                    mDiceView.setTextColor(getColor(R.color.primary_color));
+                }, 1500);
             }
         });
 
         playerViewModel.getEndTheGame().observe(this, shouldWeEndTheGame -> {
             if (shouldWeEndTheGame.equals("YES")) {
-                mDiceView.setText("W^O^N");
+                mDiceView.setText("W\\^O^/N");
                 mDiceView.setClickable(false);
                 mPLayerField.setClickable(false);
             }
@@ -143,7 +147,7 @@ public class FullscreenActivity extends AppCompatActivity{
                         }
                         imageViews[id][col] = (ImageView) v;
                         imageViews[id][col].setImageResource(getImageResource(playerViewModel.getPlayer(id).getGunMans().get(col)));
-                        setOnClickImageListner((ImageView) v, id, col);
+                        setOnClickImageListener((ImageView) v, id, col);
                         col++;
                     }
                 }
@@ -165,7 +169,9 @@ public class FullscreenActivity extends AppCompatActivity{
         return R.mipmap.licenced; // i,e he's on fire 3+
     }
 
-    void setOnClickImageListner(ImageView imageView, int id, int col) {
-        imageView.setOnClickListener(v -> gameController.killPlayer(id, col));
+    void setOnClickImageListener(ImageView imageView, int id, int col) {
+        imageView.setOnClickListener(v -> {
+            mPLayerField.setEnable(!gameController.killPlayer(id, col));//disable Views
+        });
     }
 }
