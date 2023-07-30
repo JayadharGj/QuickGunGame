@@ -1,2 +1,3 @@
-# Noob
-trying to build a small game hope this works well :P
+# QUICKGUN GAME
+A small game built for learning / adapting of design patterns / architectures - MVC , MPC , MVVM
+
