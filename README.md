@@ -1,3 +1,5 @@
 # QUICKGUN GAME
-A small game built for learning / adapting of design patterns / architectures - MVC , MPC , MVVM
+A small Android game built for learning / adapting of design patterns / architectures - MVC , MPC , MVVM
+
+a dice roll and shooting game.
 
